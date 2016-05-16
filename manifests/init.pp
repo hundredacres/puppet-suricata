@@ -4,15 +4,29 @@
 #
 # === Parameters
 #
+# [*source*]
+#   Sets the content of source parameter for main configuration file
+#   If defined, suricata main config file will have the param: source => $source
+#
+# [*template*]
+#   Sets the path to the template to use as content for main configuration file
+#   If defined, suricata main config file has: content => content("$template")
+#   Note source and template parameters are mutually exclusive: don't use both
+#   Defaults to suricata/suricata.yaml.erb
+#
 # [*sample_parameter*]
 #   Explanation of what this parameter affects and what it defaults to.
 #
 class suricata (
-  $package_name = $suricata::params::package_name,
-  $service_name = $suricata::params::service_name,
-  $monitor_interface = $suricata::params::monitor_interface,
+  $default_log_dir      = $suricata::params::default_log_dir,
+  $package_name         = $suricata::params::package_name,
+  $service_name         = $suricata::params::service_name,
+  $sysdir               = $suricata::params::sysdir,
+  $monitor_interface    = $suricata::params::monitor_interface,
   $scirius_ruleset_name = $suricata::params::scirius_ruleset_name,
-  $threads = $suricata::params::threads,
+  $source               = $suricata::params::source,
+  $threads              = $suricata::params::threads,
+  $template             = $suricata::params::template,
 ) inherits suricata::params {
   # validate parameters
   validate_string($package_name)
@@ -21,7 +35,16 @@ class suricata (
   validate_string($scirius_ruleset_name)
   validate_integer($threads)
 
-  include apt
+  #include apt
+
+  $manage_file_source = $suricata::source ? {
+    ''      => undef,
+    default => $suricata::source,
+  }
+  $manage_file_content = $suricata::template ? {
+    ''      => undef,
+    default => template($suricata::template),
+  }
 
   if $suricata::monitor_interface in $::interfaces {
     class { 'suricata::install': } ->

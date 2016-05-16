@@ -50,16 +50,17 @@ class suricata::config {
   # create logdir
   file{ 'logdir':
     ensure => directory,
-    path   => '/var/log/suricata',
+    path   => $suricata::default_log_dir,
   }
 
   # create suricata configs
   file{ 'suricata-default':
-    path    => '/etc/default/suricata',
-    content => template('suricata/suricata-default.erb'),
+    path    => "${suricata::sysdir}/suricata",
+    content => template("suricata/suricata-${::osfamily}.erb"),
   }
   file{ 'suricata.yaml':
     path    => '/etc/suricata/suricata.yaml',
-    content => template('suricata/suricata.yaml.erb'),
+    source  => $suricata::manage_file_source,
+    content => $suricata::manage_file_content,
   }
 }

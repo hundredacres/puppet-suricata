@@ -11,7 +11,7 @@ max-pending-packets: 1024
 runmode: workers
 host-mode: sniffer-only
 default-packet-size: 1514
-default-log-dir: /var/log/suricata
+default-log-dir: <%= @default_log_dir %>
 
 unix-command:
   enabled: no

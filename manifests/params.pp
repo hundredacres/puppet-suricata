@@ -4,20 +4,25 @@
 # It sets variables according to platform
 #
 class suricata::params {
-  $ruleset = 'emerging'
+  $default_log_dir = '/var/log/suricata'
   $home_net = '192.168.0.0/16,10.0.0.0/8,172.16.0.0/12'
-  $threads = $::processorcount
+  $ruleset = 'emerging'
   $scirius_ruleset_name = 'ETpro'
+  $source = ''
+  $threads = $::processorcount
+  $template = 'suricata/suricata.yaml.erb'
 
   case $::osfamily {
     'Debian': {
       $package_name = 'suricata'
       $service_name = 'suricata'
+      $sysdir = '/etc/default'
       $monitor_interface = 'eth1'
     }
     'RedHat', 'Amazon': {
       $package_name = 'suricata'
       $service_name = 'suricata'
+      $sysdir = '/etc/sysconfig'
       $monitor_interface = 'eth1'
     }
     default: {
