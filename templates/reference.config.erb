@@ -27,6 +27,6 @@ config reference: msft      http://technet.microsoft.com/security/bulletin/
 
 <% if scope['suricata::custom_references'] -%>
 <% scope['suricata::custom_references'].each do |c| -%>
-config reference: <%= c -%>
+config reference: <%= c %>
 <% end -%>
 <% end -%>
