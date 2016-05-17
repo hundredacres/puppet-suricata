@@ -19,6 +19,7 @@
 #
 class suricata (
   $default_log_dir      = $suricata::params::default_log_dir,
+  $custom_references    = $suricata::params::custom_references,
   $package_name         = $suricata::params::package_name,
   $service_name         = $suricata::params::service_name,
   $sysdir               = $suricata::params::sysdir,
@@ -29,6 +30,8 @@ class suricata (
   $template             = $suricata::params::template,
 ) inherits suricata::params {
   # validate parameters
+  validate_string($default_log_dir)
+  validate_string($sysdir)
   validate_string($package_name)
   validate_string($service_name)
   validate_string($monitor_interface)

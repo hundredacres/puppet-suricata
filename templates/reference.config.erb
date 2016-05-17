@@ -24,3 +24,9 @@ config reference: securitytracker http://securitytracker.com/id?
 config reference: secunia   http://secunia.com/advisories/
 config reference: xforce    http://xforce.iss.net/xforce/xfdb/
 config reference: msft      http://technet.microsoft.com/security/bulletin/
+
+<% if scope['suricata::custom_references'] -%>
+<% scope['suricata::custom_references'].each do |c| -%>
+config reference: <%= c -%>
+<% end -%>
+<% end -%>

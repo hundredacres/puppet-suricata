@@ -4,6 +4,7 @@
 # It sets variables according to platform
 #
 class suricata::params {
+  $custom_references = undef
   $default_log_dir = '/var/log/suricata'
   $home_net = '192.168.0.0/16,10.0.0.0/8,172.16.0.0/12'
   $ruleset = 'emerging'
