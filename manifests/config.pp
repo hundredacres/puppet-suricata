@@ -63,4 +63,8 @@ class suricata::config {
     source  => $suricata::manage_file_source,
     content => $suricata::manage_file_content,
   }
+  file{ 'reference.config':
+    path    => '/etc/suricata/reference.config',
+    content => template('reference.config.erb'),
+  }
 }
