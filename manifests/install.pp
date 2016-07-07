@@ -11,6 +11,7 @@ class suricata::install {
     #'software-properties-common',
     #'python-software-properties',
     'ethtool',
+    'ebtables',
     #'python-pyinotify',
   ]
   ensure_packages($packages)
