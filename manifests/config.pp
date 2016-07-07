@@ -14,10 +14,12 @@ class suricata::config {
     command => "/sbin/ethtool -K ${suricata::monitor_interface} gro off",
     unless  => "/sbin/ethtool -k ${suricata::monitor_interface} | grep 'generic-receive-offload: off'",
   }
-  # rx-vlan-offload
-  exec { 'disable_rxvlan':
-    command => "/sbin/ethtool -K ${suricata::monitor_interface} rxvlan off",
-    unless  => "/sbin/ethtool -k ${suricata::monitor_interface} | grep 'rx-vlan-offload: off'",
+  if $rx_vlan_offload {
+    # rx-vlan-offload
+    exec { 'disable_rxvlan':
+      command => "/sbin/ethtool -K ${suricata::monitor_interface} rxvlan off",
+      unless  => "/sbin/ethtool -k ${suricata::monitor_interface} | grep 'rx-vlan-offload: off'",
+    }
   }
   # generic-segmentation-offload
   exec { 'disable_gso':

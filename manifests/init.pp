@@ -28,6 +28,7 @@ class suricata (
   $source               = $suricata::params::source,
   $threads              = $suricata::params::threads,
   $template             = $suricata::params::template,
+  $rx_vlan_offload      = $suricata::params::rx_vlan_offload,
 ) inherits suricata::params {
   # validate parameters
   validate_string($default_log_dir)
@@ -37,7 +38,7 @@ class suricata (
   validate_string($monitor_interface)
   validate_string($scirius_ruleset_name)
   validate_integer($threads)
-
+  validate_bool($rx_vlan_offload)
   #include apt
 
   $manage_file_source = $suricata::source ? {

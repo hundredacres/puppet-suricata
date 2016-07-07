@@ -12,6 +12,7 @@ class suricata::params {
   $source = ''
   $threads = $::processorcount
   $template = 'suricata/suricata.yaml.erb'
+  $rx_vlan_offload = true
 
   case $::osfamily {
     'Debian': {
