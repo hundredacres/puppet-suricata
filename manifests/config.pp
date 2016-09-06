@@ -61,7 +61,7 @@ class suricata::config {
     group   => 'root',
     path    => "${suricata::sysdir}/suricata",
     content => template("suricata/suricata-${::osfamily}.erb"),
-    mode    => 0644,
+    mode    => '0644',
   }
   file{ 'suricata.yaml':
     path    => '/etc/suricata/suricata.yaml',
@@ -73,6 +73,6 @@ class suricata::config {
     group   => $suricata::suricata_group,
     path    => '/etc/suricata/reference.config',
     content => template('suricata/reference.config.erb'),
-    mode    => 0644,
+    mode    => '0644',
   }
 }
