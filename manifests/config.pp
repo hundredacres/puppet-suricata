@@ -57,7 +57,7 @@ class suricata::config {
 
   # create suricata configs
   file{ 'suricata-default':
-    user    => $suricata::suricata_user,
+    owner   => $suricata::suricata_user,
     group   => 'root',
     path    => "${suricata::sysdir}/suricata",
     content => template("suricata/suricata-${::osfamily}.erb"),
@@ -69,7 +69,7 @@ class suricata::config {
     content => $suricata::manage_file_content,
   }
   file{ 'reference.config':
-    user    => $suricata::suricata_user,
+    owner   => $suricata::suricata_user,
     group   => $suricata::suricata_group,
     path    => '/etc/suricata/reference.config',
     content => template('suricata/reference.config.erb'),
