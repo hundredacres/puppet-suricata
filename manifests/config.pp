@@ -14,7 +14,7 @@ class suricata::config {
     command => "/sbin/ethtool -K ${suricata::monitor_interface} gro off",
     unless  => "/sbin/ethtool -k ${suricata::monitor_interface} | grep 'generic-receive-offload: off'",
   }
-  if $rx_vlan_offload {
+  if $suricata::rx_vlan_offload {
     # rx-vlan-offload
     exec { 'disable_rxvlan':
       command => "/sbin/ethtool -K ${suricata::monitor_interface} rxvlan off",
@@ -56,6 +56,12 @@ class suricata::config {
   }
 
   # create suricata configs
+  file { '/etc/suricata':
+    ensure => directory,
+    owner  => $suricata::suricata_user,
+    group  => 'root',
+    mode   => '0755',
+  }
   file{ 'suricata-default':
     owner   => $suricata::suricata_user,
     group   => 'root',
@@ -64,15 +70,31 @@ class suricata::config {
     mode    => '0644',
   }
   file{ 'suricata.yaml':
+    owner   => $suricata::suricata_user,
+    group   => $suricata::suricata_group,
     path    => '/etc/suricata/suricata.yaml',
     source  => $suricata::manage_file_source,
     content => $suricata::manage_file_content,
+  }
+  file{ 'classification.config':
+    owner   => $suricata::suricata_user,
+    group   => $suricata::suricata_group,
+    path    => '/etc/suricata/classification.config',
+    content => template('suricata/classification.config.erb'),
+    mode    => '0644',
   }
   file{ 'reference.config':
     owner   => $suricata::suricata_user,
     group   => $suricata::suricata_group,
     path    => '/etc/suricata/reference.config',
     content => template('suricata/reference.config.erb'),
+    mode    => '0644',
+  }
+  file{ 'threshold.config':
+    owner   => $suricata::suricata_user,
+    group   => $suricata::suricata_group,
+    path    => '/etc/suricata/threshold.config',
+    content => template('suricata/threshold.config.erb'),
     mode    => '0644',
   }
 }
