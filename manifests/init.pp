@@ -18,19 +18,21 @@
 #   Explanation of what this parameter affects and what it defaults to.
 #
 class suricata (
-  $default_log_dir      = $suricata::params::default_log_dir,
+  Stdlib::Absolutepath $default_log_dir      = $suricata::params::default_log_dir,
   $custom_references    = $suricata::params::custom_references,
-  $package_name         = $suricata::params::package_name,
-  $service_name         = $suricata::params::service_name,
-  $sysdir               = $suricata::params::sysdir,
+  String  $package_name         = $suricata::params::package_name,
+  String  $service_name         = $suricata::params::service_name,
+  Boolean $service_enable       = $suricata::params::service_enable,
+  Enum['running', 'stopped'] $service_ensure       = $suricata::params::service_ensure,
+  Stdlib::Absolutepath $sysdir               = $suricata::params::sysdir,
   $monitor_interface    = $suricata::params::monitor_interface,
   $scirius_ruleset_name = $suricata::params::scirius_ruleset_name,
   $source               = $suricata::params::source,
   $threads              = $suricata::params::threads,
   $template             = $suricata::params::template,
   $rx_vlan_offload      = $suricata::params::rx_vlan_offload,
-  $suricata_user        = $suricata::params::suricata_user,
-  $suricata_group       = $suricata::params::suricata_group,
+  String $suricata_user        = $suricata::params::suricata_user,
+  String $suricata_group       = $suricata::params::suricata_group,
 ) inherits suricata::params {
   # validate parameters
   validate_string($default_log_dir)

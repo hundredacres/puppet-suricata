@@ -1,0 +1,21 @@
+# This file is managed by Puppet. DO NOT EDIT.
+[Unit]
+Description=Suricata Intrusion Detection Service
+After=syslog.target network-online.target
+Requires=network.target
+Documentation=man:suricata(8) man:suricatasc(8)
+
+[Service]
+Type=forking
+Environment=CFG=/etc/suricata/suricata.yaml PID=/var/run/suricata.pid
+PIDFile=/var/run/suricata.pid
+ExecStart=/usr/sbin/suricata -i bond1 --user <%= $::suricata::suricata_user %> --group <%= $::suricata::suricata_group %> -c $CFG --pidfile $PID -D
+EnvironmentFile=<%= $::suricata::sysdir %>/suricata
+ExecReload=/bin/kill -HUP $MAINPID
+ExecStop=/bin/kill $MAINPID
+PrivateTmp=yes
+InaccessibleDirectories=/home /root
+ReadOnlyDirectories=/boot /usr /etc
+
+[Install]
+WantedBy=multi-user.target
