@@ -29,6 +29,8 @@ class suricata (
   $threads              = $suricata::params::threads,
   $template             = $suricata::params::template,
   $rx_vlan_offload      = $suricata::params::rx_vlan_offload,
+  $suricata_user        = $suricata::params::suricata_user,
+  $suricata_group       = $suricata::params::suricata_group,
 ) inherits suricata::params {
   # validate parameters
   validate_string($default_log_dir)
